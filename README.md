@@ -1,2 +1,2 @@
 # js-lessons
-Interactive framework for web lessons written in javascript
+Interactive framework for web lessons write in JS
