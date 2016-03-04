@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<title>Hello Strapdown</title>
+<link rel="stylesheet" href="assets/codemirror/codemirror.css">
+<link rel="stylesheet" href="assets/codemirror/codemirror.css">
+<script type="text/javascript">
+	// Adds the implementation for Array.prototype.concatAll()
+	function defineConcatAll() {
+		Array.prototype.concatAll = function () {
+			var results = [];
+
+			this.forEach(function(subArray) {
+				results.push.apply(results, subArray);
+			});
+
+			return results;
+		};
+	}
+
+	/**
+	 * Add the implementation for Array.prototype.concatMap()
+	 */
+	function defineConcatMap() {
+		Array.prototype.concatMap = function(fnc) {
+			return this.
+				map(function (e) {
+					return fnc(e);
+				}).
+				// apply the concatAll function to flatten the two-dimensional array
+				concatAll();
+		};
+	}
+
+	/**
+	 * This function will be executed at the begining of each verifier function
+	 */
+	function preVerifierHook() {
+		// Add helpers to prevent 'undefined is not a function' like errors
+		defineConcatAll();
+		defineConcatMap();
+	}
+</script>
+
+<xmp theme="united" style="display:none;">
+# Markdown text goes in here
+
+## Chapter 1
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+et dolore magna aliqua. 
+
+<div style="display:none;" id="START-EXERCISE"></div>
+<div style="display:none;" id="lessonB"></div>
+
+## Chapter 2
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+<div style="display:none;" id="lessonE"></div>
+<div style="display:none;" id="END-EXERCISE"></div>
+</xmp>
+
+
+<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+<script type="text/javascript">
+	// Hide the remain exercises without remove markdown support
+	var x = document.getElementById("START-EXERCISE");
+	while(x.nextElementSibling.id != "END-EXERCISE"){
+		x.style.display = "none";
+		x = x.nextElementSibling;
+	}
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+</html>
