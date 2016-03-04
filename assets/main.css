@@ -44,7 +44,7 @@ pre {
 	border: solid 1px black;
 }
 
-.lesson, .post {
+.post {
 	visibility: hidden;
 }
 
@@ -58,6 +58,11 @@ pre {
 
 .center {
 	text-align: center
+}
+
+/* Override Strapdown */
+.navbar{
+	z-index: 10 !important;
 }
 
 /* Override CodeMirror */

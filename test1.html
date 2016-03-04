@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <title>Hello Strapdown</title>
-<link rel="stylesheet" href="assets/codemirror/codemirror.css">
 <link rel="stylesheet" href="assets/main.css">
+<link rel="stylesheet" href="assets/codemirror/codemirror.css">
 <script type="text/javascript">
 	// Adds the implementation for Array.prototype.concatAll()
 	function defineConcatAll() {
@@ -49,8 +49,47 @@
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
 et dolore magna aliqua. 
 
-<button class="go">Run</button>
+<div class="lesson">
+	<textarea class="code" rows="8" cols="80">
+function(console) {
+	var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"],
+		counter;
+
+	for(counter = 0; counter < names.length; counter++) {
+		console.log(names[counter]);
+	}
+}
+	</textarea>
+	<div class="output"></div>
+	<pre id="" class="verifier">
+		// Traverse array with for loop
+		function(str) {
+			preVerifierHook();
+			var fun = eval("(" + str + ")");
+			var items = [];
+			var got;
+			var expected = '["Ben","Brian","Jafar","Matt","Priya"]';
+			fun({
+				log:function(name) {
+					items.push(name);
+					console.log(name);
+				}
+			});
+
+			got = JSON.stringify(items.sort());
+			if(got === expected) {
+				return "Success!"
+			}
+			else {
+				showLessonErrorMessage(expected, got, 'Note: order does not matter');
+			}
+		}
+	</pre>
+	<button class="go">Run</button>
+</div>
+<!-- ********************** START OF EXERCISE ********************** -->
 <div style="display:none;" id="START-EXERCISE"></div>
+<!-- ********************** LESSON 1 - BEGIN *********************** -->
 <div style="display:none;" id="lessonB1"></div>
 
 ## Chapter 2
@@ -60,10 +99,48 @@ aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in volup
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
 culpa qui officia deserunt mollit anim id est laborum.
 
-<button class="go">Run</button>
-<div style="display:none;" id="lessonE1"></div>
-<!-- ********************** LESSON ********************** -->
-<div style="display:none;" id="lessonB2"></div>
+<div class="lesson">
+	<textarea class="code" rows="8" cols="80">
+function(console) {
+	var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"],
+		counter;
+
+	for(counter = 0; counter < names.length; counter++) {
+		console.log(names[counter]);
+	}
+}
+	</textarea>
+	<div class="output"></div>
+	<pre class="verifier">
+		// Traverse array with for loop
+		function(str) {
+			preVerifierHook();
+			var fun = eval("(" + str + ")");
+			var items = [];
+			var got;
+			var expected = '["Ben","Brian","Jafar","Matt","Priya"]';
+			fun({
+				log:function(name) {
+					items.push(name);
+					console.log(name);
+				}
+			});
+
+			got = JSON.stringify(items.sort());
+			if(got === expected) {
+				return "Success!"
+			}
+			else {
+				showLessonErrorMessage(expected, got, 'Note: order does not matter');
+			}
+		}
+	</pre>
+	<button class="go">Run</button>
+</div>
+<div style="display:none;" id="lessonE1"></div> 
+<!-- *********************** LESSON 2 - END *********************** -->
+<!-- ********************** LESSON 2 - BEGIN ********************** -->
+<div style="display:none;" id="lessonB2"></div> 
 
 ## Chapter 3
 
@@ -73,21 +150,23 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non pr
 culpa qui officia deserunt mollit anim id est laborum.
 
 <div style="display:none;" id="lessonE2"></div>
-<!-- ********************** LESSON ********************** -->
-
+<!-- *********************** LESSON 2 - END *********************** -->
 <div style="display:none;" id="END-EXERCISE"></div>
+<!-- ********************** END OF EXERCISE *********************** -->
 </xmp>
 
-
+<!-- Libraries for interface -->
 <script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
 <script src="assets/codemirror/codemirror.js"></script>
 <script src="assets/codemirror/matchbrackets.js"></script>
 <script src="assets/codemirror/javascript.js"></script>
-<script src="assets/app/wordlist.js"></script>
 
+<!-- APP LIBRARIES --> 
+<script src="assets/app/wordlist.js"></script>
 <script src="assets/app/utils.js"></script>
 <script src="assets/app/main.js"></script>
 
+<!-- Other utils libraries -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
 <script type="text/javascript">
@@ -117,9 +196,42 @@ culpa qui officia deserunt mollit anim id est laborum.
 					p.style.display = "";
 					p = p.nextElementSibling;
 				}
+
+				p.previousElementSibling.scrollIntoView();
 			}
 		}); 
 	})();
+
+	var codeMirrorEditors = [];
+	var lessons = document.getElementsByClassName("lesson");
+
+	_.each(lessons, function (el){
+		var code = el.children[0];
+		var output = el.children[1];
+		var verifierScript = el.children[2];
+		var go = el.children[3];
+
+		console.log(el);
+
+		var codeMirror = CodeMirror.fromTextArea(code, {
+				lineNumbers: true,
+				matchBrackets: true,
+				mode: "text/typescript",
+				tabSize: 4,
+				indentWithTabs: false,
+				extraKeys: {
+					"F4": function(cm) {
+						cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+					},
+					"Esc": function(cm) {
+						if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+					}
+				  }
+			});
+
+		//setTimeout(codeMirror.refresh, 1);
+		codeMirrorEditors.push(codeMirror);
+	});
 </script>
 
 </html>
