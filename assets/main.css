@@ -1,3 +1,17 @@
+.info, .success, .warning, .error, .validation, .output {
+	border: 1px solid;
+	margin: 10px 0px;
+	padding:15px 10px 15px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+.success, .output {
+	color: #4F8A10;
+	background-color: #DFF2BF;
+	background-image:url("images/success.png");
+}
+
 #loader-wrapper {
 	position: fixed;
 	top: 0;
@@ -148,8 +162,9 @@ pre {
 }
 
 .output {
-	background-color: #E6E6E6;
-	border: 1px black solid;
+	background-color: #DFF2BF ;
+	border: 1px solid green;
+	border-radius: 10px;
 }
 
 .code {
