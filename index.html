@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Hello Strapdown</title>
+<title>js-lessons: Interactive js exercises</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="assets/main.css">
 <link rel="stylesheet" href="assets/codemirror/codemirror.css">
@@ -51,9 +51,10 @@
 	<div class="loader-section section-right"></div>
 </div>
 
-# Markdown text goes in here
+# js-lessons
+### Interactive js-lessons
 
-## Chapter 1
+## Introduction
 
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
 et dolore magna aliqua. 
@@ -236,9 +237,10 @@ culpa qui officia deserunt mollit anim id est laborum.
 				autoRefresh: true,
 				tabSize: 4,
 				indentWithTabs: false,
-				lint: true,
 				hint: true,
+				mode: "javascript",
 				gutters: ["CodeMirror-lint-markers"],
+				lint: true,
 				extraKeys: {
 					"F4": function(cm) {
 						cm.setOption("fullScreen", !cm.getOption("fullScreen"));
