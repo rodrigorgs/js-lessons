@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <title>Hello Strapdown</title>
+<meta charset="utf-8">
 <link rel="stylesheet" href="assets/main.css">
 <link rel="stylesheet" href="assets/codemirror/codemirror.css">
+<link rel="stylesheet" href="assets/codemirror/addons/show-hint.css">
+<link rel="stylesheet" href="assets/codemirror/addons/lint.css">
 <script type="text/javascript">
 	// Adds the implementation for Array.prototype.concatAll()
 	function defineConcatAll() {
@@ -43,9 +46,9 @@
 
 <xmp theme="united" style="display:none;">
 <div id="loader-wrapper">
-    <div id="loader"></div>
-    <div class="loader-section section-left"></div>
-    <div class="loader-section section-right"></div>
+	<div id="loader"></div>
+	<div class="loader-section section-left"></div>
+	<div class="loader-section section-right"></div>
 </div>
 
 # Markdown text goes in here
@@ -162,16 +165,21 @@ culpa qui officia deserunt mollit anim id est laborum.
 </xmp>
 
 <!-- Libraries for interface -->
-<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+<script src="assets/v/0.2/strapdown.js"></script>
 <script src="assets/codemirror/codemirror.js"></script>
-<script src="assets/codemirror/matchbrackets.js"></script>
-<script src="assets/codemirror/autorefresh.js"></script>
+<!-- Some code mirrors addons -->
 <script src="assets/codemirror/javascript.js"></script>
+<script src="assets/codemirror/addons/matchbrackets.js"></script>
+<script src="assets/codemirror/addons/autorefresh.js"></script>
+<script src="assets/codemirror/addons/lint.js"></script>
+<script src="assets/codemirror/addons/javascript-lint.js"></script>
+<script src="assets/codemirror/addons/show-hint.js"></script>
+<script src="assets/codemirror/addons/javascript-hint.js"></script>
 
 <!-- APP LIBRARIES --> 
 <script src="assets/app/wordlist.js"></script>
 <script src="assets/app/utils.js"></script>
-<script src="assets/app/main.js"></script>
+<!-- <script src="assets/app/main.js"></script> -->
 
 <!-- Other utils libraries -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -218,26 +226,30 @@ culpa qui officia deserunt mollit anim id est laborum.
 		var verifierScript = el.children[2];
 		var go = el.children[3];
 
-		console.log(el);
+		code.style.visibility = null;
+		code.style.display = null;
 
 		var codeMirror = CodeMirror.fromTextArea(code, {
 				lineNumbers: true,
 				matchBrackets: true,
-				mode: "text/typescript",
+				mode: "javascript",
 				autoRefresh: true,
 				tabSize: 4,
 				indentWithTabs: false,
+				lint: true,
+				hint: true,
+				gutters: ["CodeMirror-lint-markers"],
 				extraKeys: {
 					"F4": function(cm) {
 						cm.setOption("fullScreen", !cm.getOption("fullScreen"));
 					},
+					"Ctrl-Space": "autocomplete",
 					"Esc": function(cm) {
 						if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
 					}
-				  }
+				}
 			});
 
-		//setTimeout(codeMirror.refresh, 1);
 		codeMirrorEditors.push(codeMirror);
 	});
 
