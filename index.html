@@ -42,6 +42,12 @@
 </script>
 
 <xmp theme="united" style="display:none;">
+<div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+</div>
+
 # Markdown text goes in here
 
 ## Chapter 1
@@ -159,6 +165,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 <script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
 <script src="assets/codemirror/codemirror.js"></script>
 <script src="assets/codemirror/matchbrackets.js"></script>
+<script src="assets/codemirror/autorefresh.js"></script>
 <script src="assets/codemirror/javascript.js"></script>
 
 <!-- APP LIBRARIES --> 
@@ -217,6 +224,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 				lineNumbers: true,
 				matchBrackets: true,
 				mode: "text/typescript",
+				autoRefresh: true,
 				tabSize: 4,
 				indentWithTabs: false,
 				extraKeys: {
@@ -232,6 +240,9 @@ culpa qui officia deserunt mollit anim id est laborum.
 		//setTimeout(codeMirror.refresh, 1);
 		codeMirrorEditors.push(codeMirror);
 	});
+
+	// After all page got rendered remove loader
+	document.body.classList.add("loaded");
 </script>
 
 </html>
