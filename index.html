@@ -138,7 +138,7 @@ function(console) {
 
 			got = JSON.stringify(items.sort());
 			if(got === expected) {
-				return "Success!"
+				return "Success!";
 			}
 			else {
 				showLessonErrorMessage(expected, got, 'Note: order does not matter');
@@ -172,8 +172,8 @@ culpa qui officia deserunt mollit anim id est laborum.
 <script src="assets/codemirror/javascript.js"></script>
 <script src="assets/codemirror/addons/matchbrackets.js"></script>
 <script src="assets/codemirror/addons/autorefresh.js"></script>
-<script src="assets/codemirror/addons/lint.js"></script>
 <script src="assets/codemirror/addons/javascript-lint.js"></script>
+<script src="assets/codemirror/addons/lint.js"></script>
 <script src="assets/codemirror/addons/show-hint.js"></script>
 <script src="assets/codemirror/addons/javascript-hint.js"></script>
 
@@ -195,13 +195,15 @@ culpa qui officia deserunt mollit anim id est laborum.
 			x = x.nextElementSibling;
 		}
 	})();
-
-	(function (){
+	
+	/*(function (){
 		var x = document.getElementsByClassName("go");
 		
 		// Just unhide to confirm this possibility
 		_.each(x, function(el) {
 			el.onclick = (ev) =>  {
+
+
 				p = ev.target.parentElement.nextElementSibling;
 				while(!p.id.startsWith("lessonB")){
 					p = p.nextElementSibling;
@@ -216,7 +218,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 				p.previousElementSibling.scrollIntoView();
 			}
 		}); 
-	})();
+	})();*/
 
 	var codeMirrorEditors = [];
 	var lessons = document.getElementsByClassName("lesson");
@@ -224,23 +226,24 @@ culpa qui officia deserunt mollit anim id est laborum.
 	_.each(lessons, function (el){
 		var code = el.children[0];
 		var output = el.children[1];
-		var verifierScript = el.children[2];
+		var verifierScript = el.children[2].textContent;
 		var go = el.children[3];
 
 		code.style.visibility = null;
 		code.style.display = null;
 
+		CodeMirror.defaults.lint = true;
+
 		var codeMirror = CodeMirror.fromTextArea(code, {
-				lineNumbers: true,
+			    lineNumbers: true,
+			    mode: "javascript",
+			    gutters: ["CodeMirror-lint-markers"],
+			    lint: true,
 				matchBrackets: true,
-				mode: "javascript",
 				autoRefresh: true,
 				tabSize: 4,
 				indentWithTabs: false,
 				hint: true,
-				mode: "javascript",
-				gutters: ["CodeMirror-lint-markers"],
-				lint: true,
 				extraKeys: {
 					"F4": function(cm) {
 						cm.setOption("fullScreen", !cm.getOption("fullScreen"));
@@ -253,6 +256,33 @@ culpa qui officia deserunt mollit anim id est laborum.
 			});
 
 		codeMirrorEditors.push(codeMirror);
+
+		go.onclick = (ev) =>  {
+			try{
+				var verificador = eval("(" + verifierScript + ")");
+				output.textContent = verificador(code.textContent, el);
+			} catch (ex) {
+				alert(ex);
+			}
+
+			if(output.textContent !== "Success!")
+				return;
+
+			//output.innerHTML += window.$log;
+
+			var p = ev.target.parentElement.nextElementSibling;
+			while(!p.id.startsWith("lessonB")){
+				p = p.nextElementSibling;
+			}
+
+			p = p.nextElementSibling;
+			while(!p.id.startsWith("lessonE")){
+				p.style.display = "";
+				p = p.nextElementSibling;
+			}
+
+			p.previousElementSibling.scrollIntoView();
+		};
 	});
 
 	// After all page got rendered remove loader
