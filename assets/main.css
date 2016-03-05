@@ -211,6 +211,11 @@ pre {
 	z-index: 9;
 }
 
+/* Override united */
+hr{
+	border-bottom: 1px solid #ddd !important;
+}
+
 /* Pretty CSS Buttons */
 .blue-button, .showAnswer{
 	background:-webkit-gradient( linear, left top, left bottom,
