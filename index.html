@@ -166,7 +166,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 </xmp>
 
 <!-- Libraries for interface -->
-<script src="assets/v/0.2/strapdown.js"></script>
+<script src="assets/strapdown/0.2/strapdown.js"></script>
 <script src="assets/codemirror/codemirror.js"></script>
 <!-- Some code mirrors addons -->
 <script src="assets/codemirror/javascript.js"></script>
@@ -268,7 +268,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 			if(output.textContent !== "Success!")
 				return;
 
-			//output.innerHTML += window.$log;
+			output.className = "success";
 
 			var p = ev.target.parentElement.nextElementSibling;
 			while(!p.id.startsWith("lessonB")){
