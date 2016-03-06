@@ -414,7 +414,7 @@ function() { // jshint ignore:line
 			// Sorting by video id
 			videoAndTitlePairs = _.sortBy(videoAndTitlePairs, function(video) { return video.id });
 			if (JSON.stringify(videoAndTitlePairs) === expected) {
-				return true;
+				return "YUPPPEEEE!";
 			}
 			else {
 				showLessonErrorMessage(expected, JSON.stringify(videoAndTitlePairs, undefined, 4), "", info);
@@ -606,7 +606,7 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 				alert(ex);
 			}
 
-			if(output.textContent !== "Success!"){
+			if((output.textContent !== "Success!") && (output.textContent !== "YUPPPEEEE!")){
 				output.className = "error";
 				output.textContent = "Error!";
 				return;
