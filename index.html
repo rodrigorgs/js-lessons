@@ -110,41 +110,73 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non pr
 culpa qui officia deserunt mollit anim id est laborum.
 
 <div class="lesson">
-	<textarea class="code" rows="8" cols="80">
-function(console) {
-	var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"],
-		counter;
+	<textarea class="code" rows="60" cols="80">
+function() {
+	var newReleases = [
+		{
+			"id": 70111470,
+			"title": "Die Hard",
+			"boxart": "http://cdn-0.nflximg.com/images/2891/DieHard.jpg",
+			"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+			"rating": [4.0],
+			"bookmark": []
+		},
+		{
+			"id": 654356453,
+			"title": "Bad Boys",
+			"boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys.jpg",
+			"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+			"rating": [5.0],
+			"bookmark": [{ id:432534, time:65876586 }]
+		},
+		{
+			"id": 65432445,
+			"title": "The Chamber",
+			"boxart": "http://cdn-0.nflximg.com/images/2891/TheChamber.jpg",
+			"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+			"rating": [4.0],
+			"bookmark": []
+		},
+		{
+			"id": 675465,
+			"title": "Fracture",
+			"boxart": "http://cdn-0.nflximg.com/images/2891/Fracture.jpg",
+			"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+			"rating": [5.0],
+			"bookmark": [{ id:432534, time:65876586 }]
+		}
+	],
+	videoAndTitlePairs = [];
 
-	for(counter = 0; counter < names.length; counter++) {
-		console.log(names[counter]);
-	}
+	// ------------ INSERT CODE HERE! -----------------------------------
+	// Use forEach function to accumulate {id, title} pairs from each video.
+	// Put the results into the videoAndTitlePairs array using the Array's
+	// push() method. Example: videoAndTitlePairs.push(newItem);
+	// ------------ INSERT CODE HERE! -----------------------------------
+
+
+	return videoAndTitlePairs;
 }
 	</textarea>
 	<div class="output"></div>
 	<pre class="verifier">
-		// Traverse array with for loop
+		// Projection with with forEach
 		function(str) {
 			preVerifierHook();
-			var fun = eval("(" + str + ")");
-			var items = [];
-			var got;
-			var expected = '["Ben","Brian","Jafar","Matt","Priya"]';
-			fun({
-				log:function(name) {
-					items.push(name);
-					console.log(name);
-				}
-			});
+			var fun = eval("(" + str + ")"),
+				videoAndTitlePairs = fun(),
+				expected = '[{\"id\":675465,\"title\":\"Fracture\"},{\"id\":65432445,\"title\":\"The Chamber\"},{\"id\":70111470,\"title\":\"Die Hard\"},{\"id\":654356453,\"title\":\"Bad Boys\"}]';
 
-			got = JSON.stringify(items.sort());
-			if(got === expected) {
-				return "Success!";
+			// Sorting by video id
+			videoAndTitlePairs = videoAndTitlePairs.sortBy(function(video) { return video.id });
+			if (JSON.stringify(videoAndTitlePairs) === expected) {
+				return true;
 			}
 			else {
-				showLessonErrorMessage(expected, got, 'Note: order does not matter');
+				showLessonErrorMessage(expected, JSON.stringify(videoAndTitlePairs));
 			}
 		}
-	</pre>
+    	</pre>
 	<button class="go">Run</button>
 </div>
 <div style="display:none;" id="lessonE1"></div> 
@@ -172,10 +204,11 @@ culpa qui officia deserunt mollit anim id est laborum.
 <script src="assets/codemirror/javascript.js"></script>
 <script src="assets/codemirror/addons/matchbrackets.js"></script>
 <script src="assets/codemirror/addons/autorefresh.js"></script>
+<script src="assets/codemirror/addons/javascript-hint.js"></script>
+<script src="assets/codemirror/addons/jshint.js"></script>
 <script src="assets/codemirror/addons/javascript-lint.js"></script>
 <script src="assets/codemirror/addons/lint.js"></script>
 <script src="assets/codemirror/addons/show-hint.js"></script>
-<script src="assets/codemirror/addons/javascript-hint.js"></script>
 
 <!-- APP LIBRARIES --> 
 <script src="assets/app/wordlist.js"></script>
@@ -219,9 +252,28 @@ culpa qui officia deserunt mollit anim id est laborum.
 			}
 		}); 
 	})();*/
-
+	
 	var codeMirrorEditors = [];
 	var lessons = document.getElementsByClassName("lesson");
+
+	function scrollTo(element, to, duration) {
+	    var difference 	= (to + 60) - element.scrollTop;
+	    var perTickSize = (difference / duration).toFixed();
+	    var perTickTime = (duration / difference).toFixed(2);
+	    var pageHeight	= window.innerHeight;
+
+	    console.log("St = " + perTickSize + " | Ts = " + perTickTime + " | S = " + difference + " | D = " + duration);
+
+	    var scrollingId = setInterval( _ => {
+	    	if((duration <= 0) || ((pageHeight + element.scrollTop) > element.offsetHeight)){
+	    		clearInterval(scrollingId);
+	    		return;
+	    	}
+	    	console.log(element.scrollTop);
+	    	duration -= perTickTime;
+	    	element.scrollTop = element.scrollTop + perTickSize;
+	    }, perTickTime);		
+	}
 
 	_.each(lessons, function (el){
 		var code = el.children[0];
@@ -265,8 +317,9 @@ culpa qui officia deserunt mollit anim id est laborum.
 				alert(ex);
 			}
 
-			if(output.textContent !== "Success!")
+			if(output.textContent !== "Success!"){
 				return;
+			}
 
 			output.className = "success";
 
@@ -279,9 +332,9 @@ culpa qui officia deserunt mollit anim id est laborum.
 			while(!p.id.startsWith("lessonE")){
 				p.style.display = "";
 				p = p.nextElementSibling;
-			}
+			}		
 
-			p.previousElementSibling.scrollIntoView();
+			//scrollTo(document.body, output.offsetTop, 600);
 		};
 	});
 
