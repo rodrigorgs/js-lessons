@@ -222,20 +222,6 @@ but you can choose the template of editors in this version.
     <option>yeti</option>
     <option>zenburn</option>
 </select>
-</p><p style="margin-bottom:0;"> <b> Select a theme for this page </b><br>
-<select style="margin-top: 5px;" onchange="selectThemePage()" id="selectpage">
-    <option selected="">united</option>
-    <option>amelia</option>
-    <option>cerulean</option>
-    <option>cyborg</option>
-    <option>journal</option>
-    <option>readable</option>
-    <option>simplex</option>
-    <option>slate</option>
-    <option>spacelab</option>
-    <option>spruce</option>
-    <option>superhero</option>
-</select>
 </p><form>
 <label> <b> Username </b> </label> <input type="text" name="fname"> <br>
 <label> <b> Password </b> </label> <input type="password" name="fname">
@@ -243,13 +229,8 @@ but you can choose the template of editors in this version.
 
 ## Introduction
 
-The Array is Javascript's only collection type. Arrays are everywhere. We're going to add the five functions to the Array type, and in the process make it much more powerful and useful. As a matter of fact, Array already has the map, filter, and reduce functions! However we're going to reimplement these functions as a learning exercise.
-
-This section will follow a pattern. First we'll solve problems the way you probably learned in school, or on your own by reading other people's code. In other words, we'll transform collections into new collections using loops and statements. Then we'll implement one of the five functions, and then use it to solve the same problem again *without* the loop. Once we've learned the five functions, you'll learn how to combine them to solve complex problems with very little code. The first two exercises have been completed in advance, but please look them over carefully!
-
-## Chapter 1 - Traversing an Array
-### Exercise 1
-#### Print all the names in an array
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+et dolore magna aliqua. 
 
 <div class="lesson">
 	<textarea class="code" rows="8" cols="80">
@@ -296,60 +277,12 @@ function(console) { // jshint ignore:line
 <!-- ********************** LESSON 1 - BEGIN *********************** -->
 <div style="display:none;" id="lessonB1"></div>
 
-### Exercise 2
-#### Use forEach to print all the names in an array
-
-Let's repeat the previous exercise using the forEach function.
-
-<div class="lesson">
-	<textarea class="code" rows="8" cols="80">
-/*jshint esversion: 6 */
-function(console) { // jshint ignore:line
-	var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"];
-
-	_.forEach(names, (el) => (console.log(el)));
-}
-	</textarea>
-	<div class="output"></div>
-	<div class="output"></div>
-	<pre id="" class="verifier">
-		// Traverse array with for loop
-		function(str, info) {
-			preVerifierHook();
-			var fun = eval("(" + str + ")");
-			var items = [];
-			var got;
-			var expected = '["Ben","Brian","Jafar","Matt","Priya"]';
-			fun({
-				log:function(name) {
-					items.push(name);
-					console.log(name);
-				}
-			});
-
-			got = JSON.stringify(items.sort());
-			if(got === expected) {
-				return "Success!"
-			}
-			else {
-				showLessonErrorMessage(expected, JSON.stringify(items.sort(), undefined, 4), 'Order does not matter', info);
-			}
-		}
-	</pre>
-	<button class="go">Run</button>
-</div>
-<div style="display:none;" id="lessonE1"></div> 
-<!-- *********************** LESSON 1 - END *********************** -->
-<!-- ********************** LESSON 2 - BEGIN ********************** -->
-<div style="display:none;" id="lessonB2"></div> 
-
 ## Chapter 2
-### Exercise 3
-####  Project an array of videos into an array of {id,title} pairs using forEach()
 
-Applying a function to a value and creating a new value is called a projection. To project one array into another, we apply a projection function to each item in the array and collect the results in a new array.
-
-For each video, add a projected {id, title} pair to the videoAndTitlePairs array.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
 
 <div class="lesson">
 	<textarea class="code" rows="60" cols="80">
@@ -423,21 +356,20 @@ function() { // jshint ignore:line
 	</pre>
 	<button class="go">Run</button>
 </div>
+<div style="display:none;" id="lessonE1"></div> 
+<!-- *********************** LESSON 2 - END *********************** -->
+<!-- ********************** LESSON 2 - BEGIN ********************** -->
+<div style="display:none;" id="lessonB2"></div> 
+
+## Chapter 3
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
 <div style="display:none;" id="lessonE2"></div>
 <!-- *********************** LESSON 2 - END *********************** -->
-<!-- ********************** LESSON 1 - BEGIN *********************** -->
-<div style="display:none;" id="lessonB3"></div>
-
-## The end!
-### Congratulations!!! :D
-
-I hope you enjoyed use js-lessons as I enjoyed programming it!
-
-Created By ** Jeferson Lima ** * a fan of penguins *.
-
-</div>
-<div style="display:none;" id="lessonE3"></div> 
-<!-- *********************** LESSON 1 - END *********************** -->
 <div style="display:none;" id="END-EXERCISE"></div>
 <!-- ********************** END OF EXERCISE *********************** -->
 </xmp>
@@ -476,7 +408,7 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 </script>
 
 <!-- Libraries for interface -->
-<script src="assets/strapdown/v/0.2/strapdown.js"></script>
+<script src="http://cdn.ztx.io/strapdown/strapdown.min.js"></script> <!-- NEW VERSION -->
 <script src="assets/codemirror/codemirror.js"></script>
 <!-- Some code mirrors addons -->
 <script src="assets/codemirror/javascript.js"></script>
@@ -584,7 +516,7 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 				indentWithTabs: false,
 				hint: true,
 				extraKeys: {
-					"F4": function(cm) {
+					"F11": function(cm) {
 						cm.setOption("fullScreen", !cm.getOption("fullScreen"));
 					},
 					"Esc": function(cm) {
