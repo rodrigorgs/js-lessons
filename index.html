@@ -65,6 +65,23 @@
 		defineConcatAll();
 		defineConcatMap();
 	}
+
+	function showLessonErrorMessage(exp, got, note, div){
+		var preTag;
+		var expected = JSON.stringify(JSON.parse(exp), undefined, 4);
+
+		div.innerHTML = "<h4>Expected:</h4>";
+		preTag = document.createElement("pre");
+		preTag.innerHTML += expected;
+		div.appendChild(preTag);
+		div.innerHTML += "<h4>Got:</h4>";
+		preTag = document.createElement("pre");
+		preTag.innerHTML += got;
+		div.appendChild(preTag);
+		
+		div.innerHTML += (note !== "") ? ("<h4>Note</h4><p style=\"margin-left: 25px;\">" + note + "</p>") : ""; 
+		div.className = "info";
+	}
 </script>
 
 <xmp theme="united" style="display:none;">
@@ -78,7 +95,7 @@
 ### Interactive js exercises
 ---
 
-##
+## Preface
 
 
 
@@ -100,9 +117,10 @@ function(console) { // jshint ignore:line
 }
 	</textarea>
 	<div class="output"></div>
+	<div class="output"></div>
 	<pre id="" class="verifier">
 		// Traverse array with for loop
-		function(str) {
+		function(str, info) {
 			preVerifierHook();
 			var fun = eval("(" + str + ")");
 			var items = [];
@@ -120,7 +138,7 @@ function(console) { // jshint ignore:line
 				return "Success!"
 			}
 			else {
-				showLessonErrorMessage(expected, got, 'Note: order does not matter');
+				showLessonErrorMessage(expected, JSON.stringify(items.sort(), undefined, 4), 'Order does not matter', info);
 			}
 		}
 	</pre>
@@ -189,24 +207,25 @@ function() { // jshint ignore:line
 }
 	</textarea>
 	<div class="output"></div>
+	<div class="output"></div>
 	<pre class="verifier">
 		// Projection with with forEach
-		function(str) {
+		function(str, info) {
 			preVerifierHook();
 			var fun = eval("(" + str + ")"),
 				videoAndTitlePairs = fun(),
 				expected = '[{\"id\":675465,\"title\":\"Fracture\"},{\"id\":65432445,\"title\":\"The Chamber\"},{\"id\":70111470,\"title\":\"Die Hard\"},{\"id\":654356453,\"title\":\"Bad Boys\"}]';
 
 			// Sorting by video id
-			videoAndTitlePairs = videoAndTitlePairs.sortBy(function(video) { return video.id });
+			videoAndTitlePairs = _.sortBy(videoAndTitlePairs, function(video) { return video.id });
 			if (JSON.stringify(videoAndTitlePairs) === expected) {
 				return true;
 			}
 			else {
-				showLessonErrorMessage(expected, JSON.stringify(videoAndTitlePairs));
+				showLessonErrorMessage(expected, JSON.stringify(videoAndTitlePairs, undefined, 4), "", info);
 			}
 		}
-    	</pre>
+	</pre>
 	<button class="go">Run</button>
 </div>
 <div style="display:none;" id="lessonE1"></div> 
@@ -347,8 +366,9 @@ culpa qui officia deserunt mollit anim id est laborum.
 	_.each(lessons, function (el){
 		var code = el.children[0];
 		var output = el.children[1];
-		var verifierScript = el.children[2].textContent;
-		var go = el.children[3];
+		var info = el.children[2]; 
+		var verifierScript = el.children[3].textContent;
+		var go = el.children[4];
 
 		code.style.visibility = null;
 		code.style.display = null;
@@ -379,9 +399,11 @@ culpa qui officia deserunt mollit anim id est laborum.
 		codeMirrorEditors.push(codeMirror);
 
 		go.onclick = (ev) =>  {
+			console.log("EVENT OK!");
+			console.log(ev);
 			try{
 				var verificador = eval("(" + verifierScript + ")");
-				output.textContent = verificador(code.value, el);
+				output.textContent = verificador(codeMirror.getValue(), info, el);
 			} catch (ex) {
 				alert(ex);
 			}
@@ -393,6 +415,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 			}
 
 			output.className = "success";
+			info.className = "output";
 
 			var p = ev.target.parentElement.nextElementSibling;
 			while(!p.id.startsWith("lessonB")){
@@ -417,6 +440,7 @@ culpa qui officia deserunt mollit anim id est laborum.
 
 </html>
 <!-- TODO
+	+ Remember to use jekyll, I think it's a good idea for clean the code
 	+ USE http://myjson.com/api to store JSON with progress of each student
 	+ USE https://ihatetomatoes.net/create-custom-preloading-screen/ while markdown is parsed and content are hidding
 -->

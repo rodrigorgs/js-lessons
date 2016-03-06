@@ -1,15 +1,28 @@
 .output{
 	height: 0;
 	opacity: 0;
+	transition: opacity 0.4s ease-out;
 }
 
 .info, .success, .warning, .error{
-	margin: 10px 0px;
+	margin: 10px 0;
 	padding:15px 10px 15px 50px;
 	background-repeat: no-repeat;
 	background-position: 10px center;
 	border-radius: 5px;
 	transition: opacity 0.4s ease-out;
+}
+
+.info p{
+    margin: 0 0 2px;
+}
+
+.info h4{
+	margin: 5px 0;
+}
+
+.info pre{
+    margin: 2px 25px;
 }
 
 .success {
@@ -35,6 +48,15 @@
 	background-image: url("images/error.png");
 	border: 1px solid red;
 }
+
+.info {
+	margin: 10px 0 0;
+	color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url("images/info.png");
+	border: 1px solid blue;
+}
+
 
 #loader-wrapper {
 	position: fixed;
@@ -290,7 +312,7 @@ hr{
 	width:133px;
 	text-decoration:none;
 	text-align:center;
-	text-shadow:1px 1px 0px #7cacde;
+	text-shadow:1px 1px 0 #7cacde;
 }
 
 .blue-button:hover, .showAnswer:hover{
@@ -330,7 +352,7 @@ hr{
 	width:61px;
 	text-decoration:none;
 	text-align:center;
-	text-shadow:1px 1px 0px #aade7c;
+	text-shadow:1px 1px 0 #aade7c;
 	margin-top: 10px;
 }
 .green-button:hover, .go:hover{
