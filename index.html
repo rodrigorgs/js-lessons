@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="assets/codemirror/codemirror.css">
 <link rel="stylesheet" href="assets/codemirror/addons/show-hint.css">
 <link rel="stylesheet" href="assets/codemirror/addons/lint.css">
+<link rel="stylesheet" href="assets/codemirror/addons/fullscreen.css">
 <script type="text/javascript">
 	// Adds the implementation for Array.prototype.concatAll()
 	function defineConcatAll() {
@@ -76,6 +77,11 @@
 # Welcome to js-lessons
 ### Interactive js exercises
 ---
+
+##
+
+
+
 ## Introduction
 
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
@@ -83,7 +89,8 @@ et dolore magna aliqua.
 
 <div class="lesson">
 	<textarea class="code" rows="8" cols="80">
-function(console) {
+/*jshint esversion: 6 */
+function(console) { // jshint ignore:line
 	var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"],
 		counter;
 
@@ -133,7 +140,8 @@ culpa qui officia deserunt mollit anim id est laborum.
 
 <div class="lesson">
 	<textarea class="code" rows="60" cols="80">
-function() {
+/*jshint esversion: 6 */
+function() { // jshint ignore:line
 	var newReleases = [
 		{
 			"id": 70111470,
@@ -219,6 +227,39 @@ culpa qui officia deserunt mollit anim id est laborum.
 <!-- ********************** END OF EXERCISE *********************** -->
 </xmp>
 
+<!-- Nice librarie for functional programming -->
+<script type="text/javascript" src="assets/underscore/underscore-min.js"></script>
+
+<!-- Since strapdown is stupid and can change the value of textarea, we need to make a backup of all code -->
+<script type="text/javascript">
+	/*
+	(function() {
+		var code;
+		window.codeBackup = [];
+		
+		//while(document.getElementsByTagName("textarea") == 0){
+			code = document.getElementsByTagName("textarea");	
+			console.log(code);
+			console.log("OXEE");
+		//}
+
+		_.each(code, (el) => {
+			window.codeBackup.push({
+				_el  : el,
+				text : el.value
+			});
+		});
+	})();
+	*/
+
+	/* Non functional */
+	// Thanks StackOverflow!
+	// http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+	replaceAll = function(search, replacement, object) {
+	    return object.replace(new RegExp(search, 'g'), replacement);
+	};
+</script>
+
 <!-- Libraries for interface -->
 <script src="assets/strapdown/0.2/strapdown.js"></script>
 <script src="assets/codemirror/codemirror.js"></script>
@@ -231,14 +272,12 @@ culpa qui officia deserunt mollit anim id est laborum.
 <script src="assets/codemirror/addons/javascript-lint.js"></script>
 <script src="assets/codemirror/addons/lint.js"></script>
 <script src="assets/codemirror/addons/show-hint.js"></script>
+<script src="assets/codemirror/addons/fullscreen.js"></script>
 
 <!-- APP LIBRARIES --> 
 <script src="assets/app/wordlist.js"></script>
-<script src="assets/app/utils.js"></script>
+<!-- <script src="assets/app/utils.js"></script> -->
 <!-- <script src="assets/app/main.js"></script> -->
-
-<!-- Other utils libraries -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
 <script type="text/javascript">
 	// Hide the remain exercises without remove markdown support
@@ -249,8 +288,16 @@ culpa qui officia deserunt mollit anim id est laborum.
 			x.style.display = "none";
 			x = x.nextElementSibling;
 		}
+
+		x = document.getElementsByClassName("code");
+		_.each(x, el => {
+			el.value = el.value.replace(/(<a\ href=").*(">)/g, 		"");
+			el.value = el.value.replace(new RegExp("</a>", 'g'), 	"");
+			el.value = el.value.replace(new RegExp("<em>", 'g'), 	"*");
+			el.value = el.value.replace(new RegExp("</em>", 'g'), 	"*");
+		});
 	})();
-	
+
 	/*(function (){
 		var x = document.getElementsByClassName("go");
 		
@@ -322,10 +369,10 @@ culpa qui officia deserunt mollit anim id est laborum.
 					"F4": function(cm) {
 						cm.setOption("fullScreen", !cm.getOption("fullScreen"));
 					},
-					"Ctrl-Space": "autocomplete",
 					"Esc": function(cm) {
 						if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
-					}
+					},
+					"Ctrl-Space": "autocomplete"
 				}
 			});
 
@@ -334,12 +381,14 @@ culpa qui officia deserunt mollit anim id est laborum.
 		go.onclick = (ev) =>  {
 			try{
 				var verificador = eval("(" + verifierScript + ")");
-				output.textContent = verificador(code.textContent, el);
+				output.textContent = verificador(code.value, el);
 			} catch (ex) {
 				alert(ex);
 			}
 
 			if(output.textContent !== "Success!"){
+				output.className = "error";
+				output.textContent = "Error!";
 				return;
 			}
 
@@ -358,6 +407,8 @@ culpa qui officia deserunt mollit anim id est laborum.
 
 			//scrollTo(document.body, output.offsetTop, 600);
 		};
+
+		// Since text area only have javascript code, is not necessary left "<a href"
 	});
 
 	// After all page got rendered remove loader

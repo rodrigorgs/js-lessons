@@ -8,6 +8,8 @@
 	padding:15px 10px 15px 50px;
 	background-repeat: no-repeat;
 	background-position: 10px center;
+	border-radius: 5px;
+	transition: opacity 0.4s ease-out;
 }
 
 .success {
@@ -16,8 +18,22 @@
 	background-color: #DFF2BF;
 	background-image: url("images/success.png");
 	border: 1px solid green;
-	border-radius: 5px;
-	transition: opacity 0.4s ease-out;
+}
+
+.warning {
+	margin: 10px 0 0;
+	color: #9F6000;
+	background-color: #FEEFB3;
+	background-image: url("images/warning.png");
+	border: 1px solid yellow;
+}
+
+.error {
+	margin: 10px 0 0;
+	color: #D8000C;
+	background-color: #FFBABA;
+	background-image: url("images/error.png");
+	border: 1px solid red;
 }
 
 #loader-wrapper {
