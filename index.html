@@ -154,7 +154,7 @@ remove this part if you don't want to.
 ### Finishing the Interactive Exercises 
 
 js-lessons is not just a "tutorial", is much more than that, js-lessons is a **series of interactive exercises that you 
-can fill out right in your browser!** dude! It's awesome just edit the code according to the question and hit "go",
+can fill out right in your browser!** dude! It's awesome just edit the code according to the question and hit "Run",
 if the code is working you can proceed to the next question, if don't the error will appear and you just need to
 correct and hit go again, until the code works, nice uh!?
 
@@ -223,7 +223,7 @@ but you can choose the template of editors in this version.
     <option>zenburn</option>
 </select>
 </p><p style="margin-bottom:0;"> <b> Select a theme for this page </b><br>
-<select style="margin-top: 5px;" onchange="selectThemePage()" id="selectpage">
+<select style="margin-top: 5px;" onchange="selectThemePage(this)" id="selectpage">
     <option selected="">united</option>
     <option>amelia</option>
     <option>cerulean</option>
@@ -397,7 +397,6 @@ function() { // jshint ignore:line
 	// push() method. Example: videoAndTitlePairs.push(newItem);
 	// ------------ INSERT CODE HERE! -----------------------------------
 
-
 	return videoAndTitlePairs;
 }
 	</textarea>
@@ -505,6 +504,8 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 			x = x.nextElementSibling;
 		}
 
+		// Since text area only have javascript code, is not necessary left "<a href="">"
+		// , or "<em>" 
 		x = document.getElementsByClassName("code");
 		_.each(x, el => {
 			el.value = el.value.replace(/(<a\ href=").*(">)/g, 		"");
@@ -520,7 +521,6 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 		// Just unhide to confirm this possibility
 		_.each(x, function(el) {
 			el.onclick = (ev) =>  {
-
 
 				p = ev.target.parentElement.nextElementSibling;
 				while(!p.id.startsWith("lessonB")){
@@ -630,8 +630,6 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 
 			//scrollTo(document.body, output.offsetTop, 600);
 		};
-
-		// Since text area only have javascript code, is not necessary left "<a href"
 	});
 
 	var input = document.getElementById("select");
@@ -660,6 +658,7 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 
 	// After all page got rendered remove loader
 	document.body.classList.add("loaded");
+	document.styleSheets[49].ownerNode.id = "pagetheme";
 
 	/**
 	 * This function assumes that lines containing three consecutive
@@ -691,6 +690,15 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 		}
 	}
 
+	// Allow change theme page
+	function selectThemePage(element){
+		var sheet = document.getElementById("pagetheme");
+		refname = sheet.href;
+
+		document.body.classList.remove("loaded");
+		sheet.href = refname.replace(/\/themes\/.*/g, "/themes/" + element.value + ".min.css");
+		setTimeout(_ => {document.body.classList.add("loaded")}, 250);
+	}
 </script>
 
 </html>
