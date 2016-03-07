@@ -173,7 +173,7 @@ but you can choose the template of editors in this version.
 
 ### Personal Configurations
 
-<p style="margin-bottom:0;"> <b> Select a theme for codeMirrorEditors </b><br>
+<p style="margin-bottom:0;"> <b> Select a theme for CodeMirror editors </b><br>
 <select style="margin-top: 5px;" onchange="selectTheme()" id="select">
     <option selected="">default</option>
     <option>3024-day</option>
@@ -343,7 +343,7 @@ function(console) { // jshint ignore:line
 <!-- ********************** LESSON 2 - BEGIN ********************** -->
 <div style="display:none;" id="lessonB2"></div> 
 
-## Chapter 2
+## Chapter 2 - Projecting Arrays
 ### Exercise 3
 ####  Project an array of videos into an array of {id,title} pairs using forEach()
 
@@ -652,7 +652,8 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 	CodeMirror.on(window, "hashchange", function() {
 		var theme = location.hash.slice(1);
 		if (theme) {
-			input.value = theme; selectTheme();
+			input.value = theme;
+			selectTheme();
 		}
 	});
 
@@ -697,7 +698,7 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 
 		document.body.classList.remove("loaded");
 		sheet.href = refname.replace(/\/themes\/.*/g, "/themes/" + element.value + ".min.css");
-		setTimeout(_ => {document.body.classList.add("loaded")}, 250);
+		setTimeout(_ => {document.body.classList.add("loaded")}, 350);
 	}
 </script>
 
