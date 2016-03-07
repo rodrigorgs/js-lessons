@@ -8,6 +8,6 @@ js-lessons is a interactive framework, for JavaScript exercises, is written enti
 
 To get started with js-lessons make a fork and create your own interactive js exercise :)
 
-** See our code in action [js-lessons](https://jefersonla.github.io/js-lessons) **
+**See our code in action [js-lessons](https://jefersonla.github.io/js-lessons)**
 
-Created by ** Jeferson Lima **
+Created by **Jeferson Lima**
