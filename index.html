@@ -166,8 +166,8 @@ correct and hit go again, until the code works, nice uh!?
 
 ** Note 4: ** We use jshint to check the syntax of your code, but you can disable this too;
 
-** Note 5: ** You can choose the template of the page in version beta [js-lessons.BETA](beta.html), 
-but you can choose the template of editors in this version.
+** Note 5: ** You can choose the template of the page and the editors. We have a beta version too
+[js-lessons.BETA](beta.html), with a beta version of strapdown, which is not recomended.
 
 ** ! This exercise is just for test purpose, and documentation, so don't use it for real learning. **
 
@@ -236,10 +236,11 @@ but you can choose the template of editors in this version.
     <option>spruce</option>
     <option>superhero</option>
 </select>
-</p><form>
+</p><form id="login">
 <label> <b> Username </b> </label> <input type="text" name="fname"> <br>
-<label> <b> Password </b> </label> <input type="password" name="fname">
+<label> <b> Password </b> </label> <input type="password" name="fpass"> <br>
 </form>
+<button class="go" id="loginButton" onclick="">Login</button>
 
 ## Introduction
 
@@ -289,7 +290,19 @@ function(console) { // jshint ignore:line
 			}
 		}
 	</pre>
+	<div class="output">
+		<h4> Debug Console </h4> <hr>
+		<div class="saida">
+			<!-- Output -->
+			SAIDA!
+		</div>
+		<div class="command-line">
+  			<span class="console-arrow"></span>
+      		<textarea class="console-command-line" rows="1" data-min-rows="1"></textarea>
+    	</div>
+	</div>
 	<button class="go">Run</button>
+	<button class="showDebug">Show Debug</button>
 </div>
 <!-- ********************** START OF EXERCISE ********************** -->
 <div style="display:none;" id="START-EXERCISE"></div>
@@ -336,7 +349,19 @@ function(console) { // jshint ignore:line
 			}
 		}
 	</pre>
+	<div class="output">
+		<h4> Debug Console </h4> <hr>
+		<div class="saida">
+			<!-- Output -->
+			SAIDA!
+		</div>
+		<div class="command-line">
+  			<span class="console-arrow"></span>
+      		<textarea class="console-command-line" rows="1" data-min-rows="1"></textarea>
+    	</div>
+	</div>
 	<button class="go">Run</button>
+	<button class="showDebug">Show Debug</button>
 </div>
 <div style="display:none;" id="lessonE1"></div> 
 <!-- *********************** LESSON 1 - END *********************** -->
@@ -420,7 +445,19 @@ function() { // jshint ignore:line
 			}
 		}
 	</pre>
+	<div class="output">
+		<h4> Debug Console </h4> <hr>
+		<div class="saida">
+			<!-- Output -->
+			SAIDA!
+		</div>
+		<div class="command-line">
+  			<span class="console-arrow"></span>
+      		<textarea class="console-command-line" rows="1" data-min-rows="1"></textarea>
+    	</div>
+	</div>
 	<button class="go">Run</button>
+	<button class="showDebug">Show Debug</button>
 </div>
 <div style="display:none;" id="lessonE2"></div>
 <!-- *********************** LESSON 2 - END *********************** -->
@@ -491,6 +528,7 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 
 <!-- APP LIBRARIES --> 
 <script src="assets/app/wordlist.js"></script>
+<script src="assets/app/xhr_atomic.js"></script>
 <!-- <script src="assets/app/utils.js"></script> -->
 <!-- <script src="assets/app/main.js"></script> -->
 
@@ -565,7 +603,9 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 		var output = el.children[1];
 		var info = el.children[2]; 
 		var verifierScript = el.children[3].textContent;
-		var go = el.children[4];
+		var debugDiv = el.children[4];
+		var go = el.children[5];
+		var showDebug = el.children[6];
 
 		code.style.visibility = null;
 		code.style.display = null;
@@ -629,6 +669,11 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 			}		
 
 			//scrollTo(document.body, output.offsetTop, 600);
+		};
+
+		showDebug.onclick = (ev) => {
+			console.log(debugDiv.className);
+			debugDiv.className = debugDiv.className == "output" ? "console-log" : "output";
 		};
 	});
 
@@ -700,7 +745,40 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 		sheet.href = refname.replace(/\/themes\/.*/g, "/themes/" + element.value + ".min.css");
 		setTimeout(_ => {document.body.classList.add("loaded")}, 350);
 	}
+
+	/**
+	 * This function allow save progress on dontpad.com, which is not exactly secure, but works
+	 * pretty well. They work saving answered questions in two uri, the first URI represent a
+	 * database with all answered questions, and the second is a hash with a backup of the entries
+	 * in the first database:
+	 * Example
+	 *    	> dontpad.com/MATA56/id/{:hash(user, salt)} 	- Database with individual forms by id
+	 *    	> dontpad.com/{:hash(user, pass, salt)} 		- Backup entry
+	 * We recommend that you save your progress and upload to an online storage like dropbox, google
+	 * or skydrive, because dontpad.com is not safe and we can't ensure that your data is really
+	 * secure. Now use this only to save your progress, and create a form to send all the answers or
+	 * maybe just the desired ones, it will be much faster and secure than this solution.
+	 */
+	function saveProgressDontpad(){
+
+	}
+
+	/**
+	 * Instantiate the object "login" and start save progress
+	 */
+	function loginDontpad(){
+
+	}
+
+	/**
+	 * Send answers to a google form
+	 */
+	function sendAnswers(){
+
+	}
 </script>
+
+<!-- <script src="assets/app/surprise.js"></script> -->
 
 </html>
 <!-- TODO

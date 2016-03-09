@@ -1,7 +1,43 @@
+
 .output{
 	height: 0;
 	opacity: 0;
 	transition: opacity 0.4s ease-out;
+}
+
+.output h4, .output pre, .output hr, .output div, .output textarea{
+	height: 0;
+	opacity: 0;
+	transition: opacity 0.4s ease-out;
+	display: inline;
+}
+
+.console-log {
+	border: 1px solid gray;
+	margin: 10px 0;
+	padding: 0 5px;
+	border-radius: 5px;
+	background-color: #343436;
+	color: #ccc;
+	transition: opacity 0.4s ease-out, height 0.4s ease-out;
+}
+
+.console-log h4{
+    margin: 15px 0 2px;
+}
+
+.console-log hr{
+    margin: 0 0 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-top: 0;
+}
+
+#login{
+	margin: 0 0 5px;
+}
+
+#login p{
+	margin: 0 0 5px;
 }
 
 .info, .success, .warning, .error{
@@ -280,7 +316,7 @@ hr{
 }
 
 /* Pretty CSS Buttons */
-.blue-button, .showAnswer{
+.blue-button, .showDebug{
 	background:-webkit-gradient( linear, left top, left bottom,
 		color-stop(0.05, #63b8ee),
 		color-stop(1, #468ccf) );
@@ -315,13 +351,13 @@ hr{
 	text-shadow:1px 1px 0 #7cacde;
 }
 
-.blue-button:hover, .showAnswer:hover{
+.blue-button:hover, .showDebug:hover{
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #468ccf), color-stop(1, #63b8ee) );
 	background:-moz-linear-gradient( center top, #468ccf 5%, #63b8ee 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#468ccf', endColorstr='#63b8ee');
 	background-color:#468ccf;
 }
-.blue-button:active, .showAnswer:active{position:relative;top:1px;}
+.blue-button:active, .showDebug:active{position:relative;top:1px;}
 .green-button, .go{
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
 	background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
@@ -355,6 +391,11 @@ hr{
 	text-shadow:1px 1px 0 #aade7c;
 	margin-top: 10px;
 }
+
+.showDebug{
+	margin: 8px 8px 0;
+}
+
 .green-button:hover, .go:hover{
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a) );
 	background:-moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
