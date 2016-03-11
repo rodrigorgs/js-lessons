@@ -130,6 +130,7 @@
 	}
 </script>
 
+<!--- DEFINE BEGIN OF THE MARKDOWN AREA  -->
 <xmp theme="united" style="display:none;">
 <div id="loader-wrapper">
 	<div id="loader"></div>
@@ -137,21 +138,11 @@
 	<div class="loader-section section-right"></div>
 </div>
 
-# Welcome to js-lessons
-### Interactive js exercises
+# Programação funcional
+## Nomes, vinculação e escopo
 ---
 
-## Preface
-
-js-lessons is a framework of interactive exercises written in JS, for running in any (or at least in the new ones)
-browser. If you wanna make a new set of exercises just make a fork of the repository stored in [js-lessons](https://github.com/jefersonla/js-lessons) and create your own JS set of exercises.
-
-js-lessons is based on [learnrx](http://reactivex.io/learnrx/) functional programing exercise, available in 
-[learnrx-repo](http://reactivex.io/learnrx/), it uses [underscore](http://underscorejs.org/) to make it eficient, and
-is compatible with markdown and jekyll too. Ahh we use [my-json](http://myjson.com/) to store exercises too, but you can
-remove this part if you don't want to.
-
-### Finishing the Interactive Exercises 
+### Note on Interactive Exercises 
 
 js-lessons is not just a "tutorial", is much more than that, js-lessons is a **series of interactive exercises that you 
 can fill out right in your browser!** dude! It's awesome just edit the code according to the question and hit "Run",
@@ -236,247 +227,268 @@ correct and hit go again, until the code works, nice uh!?
     <option>spruce</option>
     <option>superhero</option>
 </select>
-</p><form id="login">
-<label> <b> Username </b> </label> <input type="text" name="fname"> <br>
-<label> <b> Password </b> </label> <input type="password" name="fpass"> <br>
-</form>
-<button class="go" id="loginButton" onclick="">Login</button>
 
-## Introduction
+## Introdução
 
-The Array is Javascript's only collection type. Arrays are everywhere. We're going to add the five functions to the Array type, and in the process make it much more powerful and useful. As a matter of fact, Array already has the map, filter, and reduce functions! However we're going to reimplement these functions as a learning exercise.
+Em programas de computador, **nomes** representam coisas, como valores, comportamentos etc. Os nomes são **vinculados** às coisas que representam em diversos momentos. Por exemplo:
 
-This section will follow a pattern. First we'll solve problems the way you probably learned in school, or on your own by reading other people's code. In other words, we'll transform collections into new collections using loops and statements. Then we'll implement one of the five functions, and then use it to solve the same problem again *without* the loop. Once we've learned the five functions, you'll learn how to combine them to solve complex problems with very little code. The first two exercises have been completed in advance, but please look them over carefully!
+* O nome `if` é vinculado ao comportamento de estrutura de seleção em **tempo de projeto de linguagem**
+* Em C, quando você escreve `#define PI 3.14159`, o nome `PI` é vinculado ao valor `3.14159` em **tempo de compilação**
+* Em geral, variáveis são vinculadas aos seus valores em **tempo de execução**
 
-## Chapter 1 - Traversing an Array
-### Exercise 1
-#### Print all the names in an array
+Em linguagens de programação, vinculação (ou amarração, ou ligação, ou binding) se refere à vinculação de um nome a um valor ou comportamento.
 
-<div class="lesson">
-	<textarea class="code" rows="8" cols="80">
-/*jshint esversion: 6 */
-function(console) { // jshint ignore:line
-	var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"],
-		counter;
+**Escopo** de uma vinculação é o conjunto de trechos de um programa que consegue usar a vinculação. Exemplo:
 
-	for(counter = 0; counter < names.length; counter++) {
-		console.log(names[counter]);
-	}
+```javascript
+var glob = 123;     // 1
+console.log(glob);  // 2
+function teste() {  // 3
+    var x = 2;      // 4
+    console.log(x); // 5
+}                   // 6
+glob = 456;         // 7
+```
+
+O escopo da variável `glob` corresponde às linhas 2, 4, 5 e 7 do programa. O escopo da variável `x` corresponde à linha 5.
+
+A variável `glob` tem um escopo **global**, pois é acessível em todo o programa (essa é uma definição simplificada). A variável `x` tem um escopo **local**, pois só é acessível dentro da função no qual ela é definida. A variável `teste` também possui escopo global (lembre-se de que em Javascript funções também são valores!).
+
+A maioria das linguagens de programação adota regras de **escopo léxico** (ou estático). Isso significa que é possível determinar o escopo de uma variável somente lendo o código-fonte do programa. Algumas linguagens de programação usam o **escopo dinâmico**; uma situação comum nesse caso é uma função ter acesso a variáveis definidas na função que a chamou. Pode-se argumentar que uma linguagem de programação que adota o escopo dinâmico tende a resultar em programas mais difíceis de entender.
+
+O **contexto** ou **ambiente de referenciamento** de uma região de um programa corresponde ao conjunto de vinculações que pode-se acessar naquela região. Vejamos o exemplo anterior:
+
+```javascript
+var glob = 123;     // 1
+console.log(glob);  // 2
+function teste() {  // 3
+    var x = 2;      // 4
+    console.log(x); // 5
+}                   // 6
+glob = 456;         // 7
+```
+
+O ambiente de referenciamento da linha 7 corresponde às variáveis `glob` e `teste` (e, naturalmente, outras variáveis definidas globalmente pelo browser, a exemplo de `window` e `console`). O ambiente de referenciamento da linha 5 contém todas essas variáveis e mais a variável `x`.
+
+## Regras de escopo de Javascript
+
+Considere agora o seguinte exemplo:
+
+```javascript
+/* 1  */ var glob = 1;
+/* 2  */ 
+/* 3  */ function externa() {
+/* 4  */     var xext = 2;
+/* 5  */ 
+/* 6  */     function interna() {
+/* 7  */         var xint = 3;
+/* 8  */         console.log(xext);
+/* 9  */     }
+/* 10 */     interna();
+/* 11 */ }
+/* 12 */ externa();
+```
+
+O que acontecerá quando a linha 8 for executada? Vai dar erro? Para responder a essa pergunta, devemos descobrir se a variável `xext` faz ou não faz parte do ambiente de referenciamento da linha 8 (e da função `interna`, em geral).
+
+Faça suas apostas e execute o código no console do seu navegador.
+
+Para buscar da variável `xint`, o interpretador Javascript primeiro procura nas variáveis definidas dentro da função `interna`. Não encontrando, ele vai procurar variáveis definidas no contexto da função `externa`. Se ainda não encontrar, procura nas variáveis globais. Ou seja, o ambiente de referenciamento inclui o escopo atual e mais todos os escopos externos.
+
+Então o que vai acontecer no seguinte código?
+
+```javascript
+/* 1  */ var x = 1;
+/* 2  */ 
+/* 3  */ function externa() {
+/* 4  */     var x = 2;
+/* 5  */ 
+/* 6  */     function interna() {
+/* 7  */         var x = 3;
+/* 8  */         console.log(x);
+/* 9  */     }
+/* 10 */     interna();
+/* 11 */ }
+/* 12 */ externa();
+```
+
+Existem três vinculações diferentes do nome `x`, com diferentes escopos. Surge a dúvida: se o `x` da linha 1 tem escopo global, isso significa que esse escopo se estende à linha 8?
+
+Não. A declaração de `x` na linha 4 **mascara** a variável `x` da linha 1 (esse fenômeno é também conhecido como **sombreamento**. O resultado disso é que, dentro da função `externa`, vale a variável `x` da linha `4`... exceto na linha 8, pois nesse caso a variável que vale é a variável `x` definida na linha 7. 
+
+No final das contas, o escopo de `x` da linha 1 é a linha 12; o escopo de `x` da linha 4 é a linha 10; e o escopo de `x` da linha 7 é a linha 8.
+
+## Closures
+
+(Baseado em https://developer.mozilla.org/en/docs/Web/JavaScript/Closures)
+
+Closures (do inglês, fechamento) são funções que referenciam variáveis independentes (livres). Em outras palavras, a função definida na closure lembra-se do ambiente no qual ele foi criado.
+
+Vamos começar com um exemplo simples, sem closure:
+
+```javascript
+function alo() {
+    var nome = "Turing";
+
+    function mostraNome() {
+        alert("Alo, " + nome);
+    }
+    mostraNome();
 }
-	</textarea>
-	<div class="output"></div>
-	<div class="output"></div>
-	<pre id="" class="verifier">
-		// Traverse array with for loop
-		function(str, info) {
-			preVerifierHook();
-			var fun = eval("(" + str + ")");
-			var items = [];
-			var got;
-			var expected = '["Ben","Brian","Jafar","Matt","Priya"]';
-			fun({
-				log:function(name) {
-					items.push(name);
-					console.log(name);
-				}
-			});
+alo();
+```
 
-			got = JSON.stringify(items.sort());
-			if(got === expected) {
-				return "Success!"
-			}
-			else {
-				showLessonErrorMessage(expected, JSON.stringify(items.sort(), undefined, 4), 'Order does not matter', info);
-			}
-		}
-	</pre>
-	<div class="output">
-		<h4> Debug Console </h4> <hr>
-		<div class="saida">
-			<!-- Output -->
-			SAIDA!
-		</div>
-		<div class="command-line">
-  			<span class="console-arrow"></span>
-      		<textarea class="console-command-line" rows="1" data-min-rows="1"></textarea>
-    	</div>
-	</div>
-	<button class="go">Run</button>
-	<button class="showDebug">Show Debug</button>
+Agora um exemplo mais complexo, com closure:
+
+```javascript
+function criaFuncaoAlo() {
+    var nome = "Turing";
+
+    function mostraNome() {
+        alert("Alo, " + nome);
+    }
+    return mostraNome;
+}
+var alo = criaFuncaoAlo();
+alo();
+```
+
+O resultado é o mesmo, mas a função `criaFuncaoAlo` desta vez retorna a função interna `mostraNome`, sem executá-la. Em vez disso, a função só executada na última linha de código.
+
+O código não é muito intuitivo. Normalmente, uma variável local definida em uma função só existe enquanto a função é executada; quando a execução termina, a variável deveria ser destruída e deixar de ser acessível. No exemplo, no entanto, a variável `nome` ainda está acessível depois que a função `criaFuncaoAlo` terminou de executar.
+
+A solução desse mistério é que `mostraNome` tornou-se uma closure, que é um objeto especial que combina duas coisas: uma função e o ambiente na qual a função foi criada. O ambiente consiste de todas as variáveis locais disponíveis no momento em que a função foi criada. Dizemos que a função `mostraNome` **captura** a variável nome.
+
+```
+closure mostraNome =
+  função mostraNome +
+  variável nome
+```
+
+Mais um exemplo:
+
+```javascript
+function criaAlertRandom() {
+    var x = Math.random();
+    return function() {
+        alert("Número sorteado: " + x);
+    }
+}
+var funcAlert1 = criaAlertRandom();
+var funcAlert2 = criaAlertRandom();
+funcAlert1();
+funcAlert2();
+funcAlert1();
+```
+
+Qual o resultado? Três números iguais? Três números diferentes? O primeiro número será igual ao terceiro? Faça suas apostas, execute e revise seu conhecimento sobre closures.
+
+Agora um exemplo mais útil, mostrando que parâmetros também são capturados por uma closure:
+
+```javascript
+function multiplicador(fator1) {
+    return function(fator2) {
+        return fator1 * fator2;
+    }
+}
+var dobro = multiplicador(2);
+var triplo = multiplicador(3);
+alert(dobro(4));
+alert(triplo(4));
+```
+
+A closure também pode alterar as variáveis capturadas:
+
+```javascript
+function criaContador() {
+    var x = 0;
+    return function() {
+        x = x + 1;
+        console.log(x);
+    }
+}
+var contadorA = criaContador();
+var contadorB = criaContador();
+contadorA();
+contadorA();
+contadorA();
+contadorB();
+contadorB();
+```
+
+## Closures e programação orientada a objetos
+
+Uma closure permite associar alguns dados (o ambiente) com a função que opera sobre os dados. Isso soa como programação orientada a objetos, na qual objetos permitem associar alguns dados (as propriedades do objeto) a um ou mais métodos.
+
+Exemplo:
+
+```javascript
+function criaObjetoContador(nome) {
+    var c = 0;
+
+    function incrementa() {
+        c = c + 1;
+    }
+    function mostra() {
+        alert(nome + ": " + c);
+    }
+
+    return {"incrementa": incrementa,
+        "mostra": mostra};
+}
+var contadorA = criaObjetoContador("A");
+var contadorB = criaObjetoContador("B");
+contadorA.incrementa();
+contadorB.incrementa();
+contadorA.incrementa();
+contadorB.incrementa();
+contadorA.incrementa();
+contadorA.mostra();
+contadorB.mostra();
+```
+
+Obviamente, esse esquema é limitado, pois não há herança e polimorfismo. Veremos como fazer programação orientada a objetos em Javascript do jeito certo em outro momento.
+
+## Closures na prática
+
+É importante entender closures para programar Javascript para web? **Muito**! Grande parte do código que escrevemos em Javascript para web é baseado em eventos: definimos um comportamento, então anexamos o comportamento a um evento que é disparado pelo usuário (por exemplo, um clique). O código é geralmente escrito em um callback: uma função que é executada em resposta a um evento.
+
+Exemplo:
+
+<div>
+<script async src="http://jsfiddle.net/hr17fgj4/embed/js,html,result/"></script>
 </div>
+
+Agora vamos para um exemplo mais complexo:
+
+<div>
+<script async src="http://jsfiddle.net/sftqbfj7/embed/js,html,result/"></script>
+</div>
+
+Não funcionou como você gostaria? Por quê?
+
+Que tal agora?
+
+<div>
+<script async src="http://jsfiddle.net/e1srfbbv/embed/js,html,result/"></script>
+</div>
+
+Uma versão um pouco mais compacta (e obscura, mas ainda assim muito utilizada):
+
+<div>
+<script async src="http://jsfiddle.net/65j26erk/embed/js,html,result/"></script>
+</div>
+
+A última solução usa uma IIFE (immediately-invoked function expression, ou expressão de função invocada imediatamente).
+
 <!-- ********************** START OF EXERCISE ********************** -->
+<!-- Just to avoid bugs :p -->
 <div style="display:none;" id="START-EXERCISE"></div>
-<!-- ********************** LESSON 1 - BEGIN *********************** -->
-<div style="display:none;" id="lessonB1"></div>
-
-### Exercise 2
-#### Use forEach to print all the names in an array
-
-Let's repeat the previous exercise using the forEach function.
-
-<div class="lesson">
-	<textarea class="code" rows="8" cols="80">
-/*jshint esversion: 6 */
-function(console) { // jshint ignore:line
-	var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"];
-
-	_.forEach(names, (el) => (console.log(el)));
-}
-	</textarea>
-	<div class="output"></div>
-	<div class="output"></div>
-	<pre id="" class="verifier">
-		// Traverse array with for loop
-		function(str, info) {
-			preVerifierHook();
-			var fun = eval("(" + str + ")");
-			var items = [];
-			var got;
-			var expected = '["Ben","Brian","Jafar","Matt","Priya"]';
-			fun({
-				log:function(name) {
-					items.push(name);
-					console.log(name);
-				}
-			});
-
-			got = JSON.stringify(items.sort());
-			if(got === expected) {
-				return "Success!"
-			}
-			else {
-				showLessonErrorMessage(expected, JSON.stringify(items.sort(), undefined, 4), 'Order does not matter', info);
-			}
-		}
-	</pre>
-	<div class="output">
-		<h4> Debug Console </h4> <hr>
-		<div class="saida">
-			<!-- Output -->
-			SAIDA!
-		</div>
-		<div class="command-line">
-  			<span class="console-arrow"></span>
-      		<textarea class="console-command-line" rows="1" data-min-rows="1"></textarea>
-    	</div>
-	</div>
-	<button class="go">Run</button>
-	<button class="showDebug">Show Debug</button>
-</div>
-<div style="display:none;" id="lessonE1"></div> 
-<!-- *********************** LESSON 1 - END *********************** -->
-<!-- ********************** LESSON 2 - BEGIN ********************** -->
-<div style="display:none;" id="lessonB2"></div> 
-
-## Chapter 2 - Projecting Arrays
-### Exercise 3
-####  Project an array of videos into an array of {id,title} pairs using forEach()
-
-Applying a function to a value and creating a new value is called a projection. To project one array into another, we apply a projection function to each item in the array and collect the results in a new array.
-
-For each video, add a projected {id, title} pair to the videoAndTitlePairs array.
-
-<div class="lesson">
-	<textarea class="code" rows="60" cols="80">
-/*jshint esversion: 6 */
-function() { // jshint ignore:line
-	var newReleases = [
-		{
-			"id": 70111470,
-			"title": "Die Hard",
-			"boxart": "http://cdn-0.nflximg.com/images/2891/DieHard.jpg",
-			"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
-			"rating": [4.0],
-			"bookmark": []
-		},
-		{
-			"id": 654356453,
-			"title": "Bad Boys",
-			"boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys.jpg",
-			"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
-			"rating": [5.0],
-			"bookmark": [{ id:432534, time:65876586 }]
-		},
-		{
-			"id": 65432445,
-			"title": "The Chamber",
-			"boxart": "http://cdn-0.nflximg.com/images/2891/TheChamber.jpg",
-			"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
-			"rating": [4.0],
-			"bookmark": []
-		},
-		{
-			"id": 675465,
-			"title": "Fracture",
-			"boxart": "http://cdn-0.nflximg.com/images/2891/Fracture.jpg",
-			"uri": "http://api.netflix.com/catalog/titles/movies/70111470",
-			"rating": [5.0],
-			"bookmark": [{ id:432534, time:65876586 }]
-		}
-	],
-	videoAndTitlePairs = [];
-
-	// ------------ INSERT CODE HERE! -----------------------------------
-	// Use forEach function to accumulate {id, title} pairs from each video.
-	// Put the results into the videoAndTitlePairs array using the Array's
-	// push() method. Example: videoAndTitlePairs.push(newItem);
-	// ------------ INSERT CODE HERE! -----------------------------------
-
-	return videoAndTitlePairs;
-}
-	</textarea>
-	<div class="output"></div>
-	<div class="output"></div>
-	<pre class="verifier">
-		// Projection with with forEach
-		function(str, info) {
-			preVerifierHook();
-			var fun = eval("(" + str + ")"),
-				videoAndTitlePairs = fun(),
-				expected = '[{\"id\":675465,\"title\":\"Fracture\"},{\"id\":65432445,\"title\":\"The Chamber\"},{\"id\":70111470,\"title\":\"Die Hard\"},{\"id\":654356453,\"title\":\"Bad Boys\"}]';
-
-			// Sorting by video id
-			videoAndTitlePairs = _.sortBy(videoAndTitlePairs, function(video) { return video.id });
-			if (JSON.stringify(videoAndTitlePairs) === expected) {
-				return "YUPPPEEEE!";
-			}
-			else {
-				showLessonErrorMessage(expected, JSON.stringify(videoAndTitlePairs, undefined, 4), "", info);
-			}
-		}
-	</pre>
-	<div class="output">
-		<h4> Debug Console </h4> <hr>
-		<div class="saida">
-			<!-- Output -->
-			SAIDA!
-		</div>
-		<div class="command-line">
-  			<span class="console-arrow"></span>
-      		<textarea class="console-command-line" rows="1" data-min-rows="1"></textarea>
-    	</div>
-	</div>
-	<button class="go">Run</button>
-	<button class="showDebug">Show Debug</button>
-</div>
-<div style="display:none;" id="lessonE2"></div>
-<!-- *********************** LESSON 2 - END *********************** -->
-<!-- ********************** LESSON 1 - BEGIN *********************** -->
-<div style="display:none;" id="lessonB3"></div>
-
-## The end!
-### Congratulations!!! :D
-
-I hope you enjoyed use js-lessons as I enjoyed programming it!
-
-Created By ** Jeferson Lima ** * a fan of penguins *.
-
-</div>
-<div style="display:none;" id="lessonE3"></div> 
-<!-- *********************** LESSON 1 - END *********************** -->
 <div style="display:none;" id="END-EXERCISE"></div>
 <!-- ********************** END OF EXERCISE *********************** -->
+
 </xmp>
+<!--- DEFINE END OF THE MARKDOWN AREA -->
 
 <!-- Nice librarie for functional programming -->
 <script type="text/javascript" src="assets/underscore/underscore-min.js"></script>
@@ -539,9 +551,19 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 			n.async = true;
 			n.src = el.src + "?pikachu";
 			b.appendChild(n); 
+			
+			// Allow modals sandboxed
+			// See http://stackoverflow.com/questions/32119446/ignored-call-to-alert-the-document-is-sandboxed-and-the-allow-modals-key
+			(function(){
+				var x = document.getElementsByTagName("iframe");
+				_.each(x, (el) =>{
+					el.sandbox += ' allow-modals';
+				});
+			})();
 		});
 	})();
-	
+
+
 	var codeMirrorEditors = [];
 	var lessons = document.getElementsByClassName("lesson");
 
