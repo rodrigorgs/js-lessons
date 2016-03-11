@@ -294,11 +294,7 @@ function(console) { // jshint ignore:line
 		<h4> Debug Console </h4> <hr>
 		<div class="saida">
 			<!-- Output -->
-			<pre>
-				<code>
-
-				</code>
-			</pre>
+			<pre><code></code></pre>
 		</div>
 		<div class="command-line">
   			<span class="console-arrow"></span>
@@ -357,11 +353,7 @@ function(console) { // jshint ignore:line
 		<h4> Debug Console </h4> <hr>
 		<div class="saida">
 			<!-- Output -->
-			<pre>
-				<code>
-
-				</code>
-			</pre>
+			<pre><code></code></pre>
 		</div>
 		<div class="command-line">
   			<span class="console-arrow"></span>
@@ -457,11 +449,7 @@ function() { // jshint ignore:line
 		<h4> Debug Console </h4> <hr>
 		<div class="saida">
 			<!-- Output -->
-			<pre>
-				<code>
-
-				</code>
-			</pre>
+			<pre><code></code></pre>
 		</div>
 		<div class="command-line">
   			<span class="console-arrow"></span>
@@ -588,11 +576,14 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 		code.style.visibility = null;
 		code.style.display = null;
 
+		var codeDebug = debugDiv.children[2].children[0].children[0];
+		codeDebug.classList.add("lang-lang-javascript");
+		codeDebug.classList.add("prettyprint");
+
 		console.log(debugDiv);
 
 		debugDiv.children[3].onkeydown = ((ev) => {
 			if(ev.keyCode == 13){
-				var code = debugDiv.children[2].children[0].children[0];
 				var valor = ev.target.value;
 				ev.target.value = "";
 				console.log(valor);
@@ -601,25 +592,36 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 
 				try{
 					saida = eval(valor);
-					className = typeof saida === 'string' ? "console-info" : "console-debug";
+					//className = typeof saida === 'string' ? "console-info" : "console-debug";
+					className = "console-info";
 				}
 				catch (ex){
 					if (ex !== null && typeof ex !== "undefined") {
 						saida = ex;
-					}
-					else{
+					} else{
 						saida = "An unknown error occurred!";
 					}
 					className = "console-error";
 				}
 
-		        var s = (typeof saida === 'string') ? saida : JSON.stringify(saida, 2, 2),
-		                span = document.createElement('span'),
-		                text = document.createTextNode(s + '\n');
+		        var s = (typeof saida === 'string') ? 
+		        		saida :
+						((className === "console-error") ? 
+		        			saida :
+		        			JSON.stringify(saida, 2, 2)),
+	                span = document.createElement('span'),
+	                text = document.createTextNode(s + '\n'),
+	                span2 = document.createElement('span'),
+	                text2 = document.createTextNode(valor + '\n');
 
+		        span2.setAttribute('class', "console-log");
+		        span2.appendChild(text2);
 		        span.setAttribute('class', className);
 		        span.appendChild(text);
-		        code.appendChild(span);
+		        codeDebug.appendChild(span2);
+		        codeDebug.appendChild(span);
+		        codeDebug.parentElement.scrollTop =
+		        	codeDebug.parentElement.scrollHeight - codeDebug.parentElement.clientHeight;
 
 				return false;
 			}});
