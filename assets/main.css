@@ -1,15 +1,40 @@
+.saida pre code {
+  font: 11pt/1.25 Monaco, monospace;
+}
+
+.saida pre {
+    overflow-y: scroll;
+    height: 300px;
+
+    margin: 11px 5px -4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 0px;
+    border-width: 0px;
+}
+
+.console-debug { color: Snow; }
+.console-info  { color: LawnGreen; }
+.console-warn  { color: GoldenRod; }
+.console-error { color: LightCoral; }
 
 .output{
 	height: 0;
+	width: 0;
 	opacity: 0;
 	transition: opacity 0.4s ease-out;
 }
 
-.output h4, .output pre, .output hr, .output div, .output textarea, .output span{
+.output .saida pre{
 	height: 0;
 	opacity: 0;
+}
+
+.output h4, .output pre, .output hr, .output div, .output textarea, .output span, .output textarea{
+	height: 0;
+	width: 0;
+	opacity: 0;
 	transition: opacity 0.4s ease-out, height 0.4s ease-out;
-	display: inline;
+	display: inline-flex;
 }
 
 .console-log {

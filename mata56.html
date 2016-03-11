@@ -551,18 +551,19 @@ A última solução usa uma IIFE (immediately-invoked function expression, ou ex
 			n.async = true;
 			n.src = el.src + "?pikachu";
 			b.appendChild(n); 
-			
-			// Allow modals sandboxed
-			// See http://stackoverflow.com/questions/32119446/ignored-call-to-alert-the-document-is-sandboxed-and-the-allow-modals-key
-			(function(){
-				var x = document.getElementsByTagName("iframe");
-				_.each(x, (el) =>{
-					el.sandbox += ' allow-modals';
-				});
-			})();
+			n.text = n.text.replace(/(\.sandbox\ = ")/g, ".sandbox = \"allow-modals ");
+			console.log(n.text);
 		});
 	})();
 
+	// Allow modals sandboxed
+	// See http://stackoverflow.com/questions/32119446/ignored-call-to-alert-the-document-is-sandboxed-and-the-allow-modals-key
+	(function(){
+		var x = document.getElementsByTagName("iframe");
+		_.each(x, (el) =>{
+			el.sandbox += ' allow-modals';
+		});
+	})();
 
 	var codeMirrorEditors = [];
 	var lessons = document.getElementsByClassName("lesson");

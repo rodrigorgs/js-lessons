@@ -294,7 +294,11 @@ function(console) { // jshint ignore:line
 		<h4> Debug Console </h4> <hr>
 		<div class="saida">
 			<!-- Output -->
-			SAIDA!
+			<pre>
+				<code>
+
+				</code>
+			</pre>
 		</div>
 		<div class="command-line">
   			<span class="console-arrow"></span>
@@ -353,7 +357,11 @@ function(console) { // jshint ignore:line
 		<h4> Debug Console </h4> <hr>
 		<div class="saida">
 			<!-- Output -->
-			SAIDA!
+			<pre>
+				<code>
+
+				</code>
+			</pre>
 		</div>
 		<div class="command-line">
   			<span class="console-arrow"></span>
@@ -449,7 +457,11 @@ function() { // jshint ignore:line
 		<h4> Debug Console </h4> <hr>
 		<div class="saida">
 			<!-- Output -->
-			SAIDA!
+			<pre>
+				<code>
+
+				</code>
+			</pre>
 		</div>
 		<div class="command-line">
   			<span class="console-arrow"></span>
@@ -580,9 +592,35 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 
 		debugDiv.children[3].onkeydown = ((ev) => {
 			if(ev.keyCode == 13){
+				var code = debugDiv.children[2].children[0].children[0];
 				var valor = ev.target.value;
 				ev.target.value = "";
 				console.log(valor);
+				
+				var saida, className;
+
+				try{
+					saida = eval(valor);
+					className = typeof saida === 'string' ? "console-info" : "console-debug";
+				}
+				catch (ex){
+					if (ex !== null && typeof ex !== "undefined") {
+						saida = ex;
+					}
+					else{
+						saida = "An unknown error occurred!";
+					}
+					className = "console-error";
+				}
+
+		        var s = (typeof saida === 'string') ? saida : JSON.stringify(saida, 2, 2),
+		                span = document.createElement('span'),
+		                text = document.createTextNode(s + '\n');
+
+		        span.setAttribute('class', className);
+		        span.appendChild(text);
+		        code.appendChild(span);
+
 				return false;
 			}});
 
@@ -649,7 +687,7 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 
 		showDebug.onclick = (ev) => {
 			console.log(debugDiv.className);
-			ev.target.innerHTML = debugDiv.className == "output" ? "Hide Console" : "Show Console"; 
+			ev.target.innerHTML = debugDiv.className == "output" ? "Hide Console" : "Show Debug"; 
 			debugDiv.className = debugDiv.className == "output" ? "console-log" : "output";
 		};
 	});
@@ -722,6 +760,52 @@ Created By ** Jeferson Lima ** * a fan of penguins *.
 		sheet.href = refname.replace(/\/themes\/.*/g, "/themes/" + element.value + ".min.css");
 		setTimeout(_ => {document.body.classList.add("loaded")}, 350);
 	}
+
+	var myDebug = (function() {
+	    var following = false,
+	            pre       = document.createElement('pre'),
+	            code      = document.createElement('code');
+
+	    pre.appendChild(code);
+	    //document.body.appendChild(pre);
+	    
+	    return {
+	        clear:  clear,
+	        follow: follow,
+	        log:    print.bind(this, 'debug'),
+	        info:   print.bind(this, 'info'),
+	        warn:   print.bind(this, 'warn'),
+	        error:  print.bind(this, 'error')
+	    };
+	    
+	    function clear() {
+	        while (code.hasChildNodes()) {
+	            code.removeChild(code.lastChild);
+	        }
+	    }
+	    
+	    function follow() {
+	        following = true;
+	    }
+	    
+	    function print(className, object) {
+	        var s    = (typeof object === 'string') ? object : JSON.stringify(object),
+	                span = document.createElement('span'),
+	                text = document.createTextNode(s + '\n');
+
+	        span.setAttribute('class', className);
+	        span.appendChild(text);
+	        code.appendChild(span);
+	        
+	        if (following) {
+	            scrollToBottom();
+	        }
+	    }
+	    
+	    function scrollToBottom() {
+	        window.scrollTo(0, document.body.scrollHeight);
+	    }
+	}());
 
 	/**
 	 * This function allow save progress on dontpad.com, which is not exactly secure, but works
