@@ -148,7 +148,7 @@ function simplesEval(str, info) {
 
 # Informe
 
-O DCC DEMONSTRATION DAY (www.dccdemoday2016.ufba.br) é um evento promovido pelo Departamento de Ciência da Computação (DCC) da Universidade Federal da Bahia (UFBA) com o objetivo de apresentar à comunidade acadêmica e científica os trabalhos práticos de alunos nos níveis de Iniciação Científica, Trabalho de Conclusão de Curso, Mestrado e Doutorado da área de Ciência da Computação e áreas afins. O evento será realizado o dia 27 de Maio de 2016 no auditório do Instituto de Matemática localizado no campus de Ondina da Universidade Federal da Bahia.
+O DCC DEMONSTRATION DAY (www.dccdemoday2016.ufba.br) é um evento promovido pelo Departamento de Ciência da Computação (DCC) da Universidade Federal da Bahia (UFBA) com o objetivo de apresentar à comunidade acadêmica e científica os trabalhos práticos de alunos nos níveis de Iniciação Científica, Trabalho de Conclusão de Curso, Trabalhos de Disciplinas de Graduação, Mestrado e Doutorado da área de Ciência da Computação e áreas afins. O evento será realizado o dia 20 de Maio de 2016 no auditório do Instituto de Matemática localizado no campus de Ondina da Universidade Federal da Bahia.
 
 Inscrições no evento
 
@@ -298,7 +298,7 @@ function primeirosPred(n, pred, func) {
 	while (qtd < n) {
 		if (pred(num)) {
 			qtd++;
-			console.log(num)
+			console.log(num);
 		}
 		num++;
 	}
@@ -315,7 +315,7 @@ function imprimePrimeirosPrimos(n) {
 	primeirosPred(n, ehPrimo, (x) => console.log(x));
 }
 function retornaPrimeirosPrimos(n) {
-	array = []
+	array = [];
 	primeirosPred(n, ehPrimo, (x) => array.push(x));
 	return array;
 }
@@ -365,11 +365,130 @@ imprimePrimeirosPrimos(10);
 console.log(retornaPrimeirosPrimos(10));
  -->
 
-## Isolando o conjunto de números
+## Transforme a função primeirosPred em um generator.
 
-E se não quisermos encontrar os primeiros 
+Nesse caso, você não precisará mais passar a função `func`, uma vez que `primeirosPred` retornará diretamente o valor através da instrução `yield`.
 
+<div class="lesson">
+<textarea class="code">
+function primeirosPred(n, pred, func) {
+	var i, num = 0, ehprimo, qtd = 0;
+	while (qtd < n) {
+		if (pred(num)) {
+			qtd++;
+			func(num);
+		}
+		num++;
+	}
+}
+function ehPrimo(num) {
+	ehprimo = false;
+	if (num >= 2) {
+		ehprimo = true;
+		for (i = 2; i < num; i++) {
+			if (num % i === 0) {
+				ehprimo = false;
+				break;
+			}
+		}
+	}
+	return ehprimo;
+}
+function imprimePrimeirosPrimos(n) {
+	primeirosPred(n, ehPrimo, (x) => console.log(x));
+}
+function retornaPrimeirosPrimos(n) {
+	array = []
+	primeirosPred(n, ehPrimo, (x) => array.push(x));
+	return array;
+}
+imprimePrimeirosPrimos(10);
+console.log(retornaPrimeirosPrimos(10));
+</textarea>
+<div class="output"></div>
+<div class="output"></div>
+<pre class="verifier">function(str, info) { return simplesEval(str, info); }</pre>
+<button class="go">Rodar</button>
+</div>
 
+<!-- ## Isolando o conjunto de números
+
+E se não quisermos encontrar os primeiros `n` números, e sim os números de uma sequência que são primos? Considere o seguinte generator:
+
+```javascript
+function* geraFib() {
+	var a = 1, b = 1, prox;
+
+	while (true) {
+		prox = a + b;
+		a = b;
+		b = prox;
+		yield prox;
+	}
+}
+```
+
+Escreva o restante do código no exemplo abaixo para imprimir no console todos os números da sequência de Fibonacci que são primos.
+
+<div class="lesson">
+<textarea class="code">
+function* geraFib() {
+	var a = 1, b = 1, prox;
+
+	while (true) {
+		prox = a + b;
+		a = b;
+		b = prox;
+		yield prox;
+	}
+}
+// --- seu código aqui
+// ...
+// ---
+todosPred(geraFib, ehPrimo, (x) => console.log(x));
+</textarea>
+<div class="output"></div>
+<div class="output"></div>
+<pre class="verifier">function(str, info) { return simplesEval(str, info); }</pre>
+<button class="go">Rodar</button>
+</div> -->
+
+<!--
+function* geraFib() {
+	var a = 1, b = 1, prox;
+
+	while (true) {
+		prox = a + b;
+		a = b;
+		b = prox;
+		yield prox;
+	}
+}
+function todosPred(gen, pred, func) {
+	var i, num = 0, ehprimo, qtd = 0;
+	for (num of gen()) {
+		if (pred(num)) {
+			qtd++;
+			func(num);
+		}
+		num++;
+	}
+}
+function ehPrimo(num) {
+	ehprimo = false;
+	if (num >= 2) {
+		ehprimo = true;
+		for (i = 2; i < num; i++) {
+			if (num % i === 0) {
+				ehprimo = false;
+				break;
+			}
+		}
+	}
+	return ehprimo;
+}
+todosPred(geraFib, ehPrimo, (x) => console.log(x));
+-->
 
 
 
