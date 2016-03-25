@@ -135,9 +135,7 @@
 
 <script type="text/javascript">
 function simplesEval(str, info) {
-	// var cmd = "(function(){" + str + "})();";
-	// eval(cmd);
-	Javathcript.eval(str);
+	Javathcript.evalMulti(str);
 	return "Success!";
 }
 </script>
@@ -155,6 +153,7 @@ function simplesEval(str, info) {
 <div class="lesson">
 <textarea class="code">
 (print "Alô, Mundo!")
+(print "Tchau, Mundo!")
 </textarea>
 <div class="output"></div>
 <div class="output"></div>
