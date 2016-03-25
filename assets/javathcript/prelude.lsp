@@ -66,6 +66,7 @@
 (def alert (method window "alert"))
 (def message alert)
 (def confirm (method window "confirm"))
+(def print (method (js "window.console") "log"))
 
 ; To be more like emacs, you might want to uncomment these two lines
 ; (def setp set)
