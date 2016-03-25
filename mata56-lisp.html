@@ -77,78 +77,133 @@
 <link rel="stylesheet" href="assets/codemirror/addons/fullscreen.css">
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.19.1/ramda.min.js"></script> -->
 <script type="text/javascript">
-	// Adds the implementation for Array.prototype.concatAll()
-	function defineConcatAll() {
-		Array.prototype.concatAll = function () {
-			var results = [];
+// Adds the implementation for Array.prototype.concatAll()
+function defineConcatAll() {
+	Array.prototype.concatAll = function () {
+		var results = [];
 
-			this.forEach(function(subArray) {
-				results.push.apply(results, subArray);
-			});
+		this.forEach(function(subArray) {
+			results.push.apply(results, subArray);
+		});
 
-			return results;
-		};
-	}
+		return results;
+	};
+}
 
-	/**
-	 * Add the implementation for Array.prototype.concatMap()
-	 */
-	function defineConcatMap() {
-		Array.prototype.concatMap = function(fnc) {
-			return this.
-				map(function (e) {
-					return fnc(e);
-				}).
-				// apply the concatAll function to flatten the two-dimensional array
-				concatAll();
-		};
-	}
+/**
+ * Add the implementation for Array.prototype.concatMap()
+ */
+function defineConcatMap() {
+	Array.prototype.concatMap = function(fnc) {
+		return this.
+			map(function (e) {
+				return fnc(e);
+			}).
+			// apply the concatAll function to flatten the two-dimensional array
+			concatAll();
+	};
+}
 
-	/**
-	 * This function will be executed at the begining of each verifier function
-	 */
-	function preVerifierHook() {
-		// Add helpers to prevent 'undefined is not a function' like errors
-		defineConcatAll();
-		defineConcatMap();
-	}
+/**
+ * This function will be executed at the begining of each verifier function
+ */
+function preVerifierHook() {
+	// Add helpers to prevent 'undefined is not a function' like errors
+	defineConcatAll();
+	defineConcatMap();
+}
 
-	function showLessonErrorMessage(exp, got, note, div){
-		var preTag;
-		var expected = JSON.stringify(JSON.parse(exp), undefined, 4);
+function showLessonErrorMessage(exp, got, note, div){
+	var preTag;
+	var expected = JSON.stringify(JSON.parse(exp), undefined, 4);
 
-		div.innerHTML = "<h4>Expected:</h4>";
-		preTag = document.createElement("pre");
-		preTag.innerHTML += expected;
-		div.appendChild(preTag);
-		div.innerHTML += "<h4>Got:</h4>";
-		preTag = document.createElement("pre");
-		preTag.innerHTML += got;
-		div.appendChild(preTag);
-		
-		div.innerHTML += (note !== "") ? ("<h4>Note</h4><p style=\"margin-left: 25px;\">" + note + "</p>") : ""; 
-		div.className = "info";
-	}
+	div.innerHTML = "<h4>Expected:</h4>";
+	preTag = document.createElement("pre");
+	preTag.innerHTML += expected;
+	div.appendChild(preTag);
+	div.innerHTML += "<h4>Got:</h4>";
+	preTag = document.createElement("pre");
+	preTag.innerHTML += got;
+	div.appendChild(preTag);
+	
+	div.innerHTML += (note !== "") ? ("<h4>Note</h4><p style=\"margin-left: 25px;\">" + note + "</p>") : ""; 
+	div.className = "info";
+}
 </script>
 <script type="text/javascript" src="assets/javathcript/Javathcript.js"></script>
 <script type="text/lisp" src="assets/javathcript/prelude.lsp"></script>
-
+<script type="text/javascript" src="assets/jquery/jquery.min.js"></script>
 <script type="text/javascript">
+function isObject(obj) {
+  return obj === Object(obj);
+}
+function printObj(value) {
+	if (isObject(value)) {
+		value = value.toString();
+	}
+	console.log(value);
+}
+$(document).ready(function() {
+	$("code").click(function(e) {
+		var value = Javathcript.eval($(this).text());
+		printObj(value);
+	});
+});
+
 function simplesEval(str, info) {
-	Javathcript.evalMulti(str);
-	return "Success!";
+var val = Javathcript.eval(str);
+printObj(val);
+return "Success!";
+}
+function multiEval(str, info) {
+Javathcript.evalMulti(str);
+return "Success!";
 }
 </script>
 
 <xmp theme="united" style="display:none;">
 <div id="loader-wrapper">
-	<div id="loader"></div>
-	<div class="loader-section section-left"></div>
-	<div class="loader-section section-right"></div>
+<div id="loader"></div>
+<div class="loader-section section-left"></div>
+<div class="loader-section section-right"></div>
 </div>
 
+<!-- TODO: ao clicar em um pre, avaliar a expressão e imprimir o resultado no console -->
 
+# Programação funcional
 
+Clique em qualquer expressão de código para avaliar com o interpretador Lisp e ver o resultado no console do navegador.
+
+## Lisp
+
+http://www.scribd.com/doc/54050141/Micro-Manual-LISP
+
+Dados em Lisp são expressões simbólicas que podem ser **átomos** ou **listas**.
+
+Átomo: sequência de letras e dígitos e outros caractees que não são usados em Lisp. Ex.: `1`, `altura`, `print`, `+`.
+
+Lista: `(` seguido de zero ou mais átomos separados por espaços, seguido de `)`. Exemplo: `(a)`, `(+ 2 3)`, `(print 5)`.
+
+Cada expressão pode ser avaliada para um valor. Exemplos:
+
+- `(quote x)` ==> `x`.
+- `(car x)` ==> primeiro elemento da lista `x`. Exemplo: `(car (quote a b c))` ==> `a`
+- `(cdr x)` ==> lista restante após remover primeiro elemento da lista `x`. Exemplo: `(cdr (quote (a b c)))` ==> `(b c)`
+- `(cons x y)` ==> lista resultante de se adicionar o valor de `x` à lista `y`. Exemplo: `(cons (quote a) (quote (b c)))` ==> `(a b c)`
+- `(equal x y)` ==> `T` se `x` e `y` têm o mesmo valor; `nil` caso contrário
+- `(atom x)` ==> `T` se `x` é um átomo; `nil' caso contrário
+- `(cond (p1 e1) (p2 e2) ...)` => valor de ei, onde pi é o primeiro dos ps cujo valor não é nil.
+- Um átomo pode ter um valor
+- `((lambda (v1 ... vn) e) e1 ... en)
+
+<div class="lesson">
+<textarea class="code">
+(+ 2 3)</textarea>
+<div class="output"></div>
+<div class="output"></div>
+<pre class="verifier">function(str, info) { return simplesEval(str, info); }</pre>
+<button class="go">Rodar</button>
+</div>
 
 <div class="lesson">
 <textarea class="code">
@@ -157,11 +212,9 @@ function simplesEval(str, info) {
 </textarea>
 <div class="output"></div>
 <div class="output"></div>
-<pre class="verifier">function(str, info) { return simplesEval(str, info); }</pre>
+<pre class="verifier">function(str, info) { return multiEval(str, info); }</pre>
 <button class="go">Rodar</button>
 </div>
-
-
 
 <div id="START-EXERCISE"></div>
 <div id="END-EXERCISE"></div>
@@ -298,6 +351,7 @@ function simplesEval(str, info) {
 					"Ctrl-Space": "autocomplete"
 				}
 			});
+		codeMirror.setSize("100%", "auto");
 
 		codeMirrorEditors.push(codeMirror);
 
