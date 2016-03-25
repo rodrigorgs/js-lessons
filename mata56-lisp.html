@@ -181,6 +181,7 @@ function simplesEval(str, info) {
 <!-- Libraries for interface -->
 <script src="assets/strapdown/v/0.2/strapdown.js"></script>
 <script src="assets/codemirror/codemirror.js"></script>
+<script src="assets/codemirror/commonlisp.js"></script>
 <!-- Some code mirrors addons -->
 <script src="assets/codemirror/javascript.js"></script>
 <script src="assets/codemirror/addons/matchbrackets.js"></script>
@@ -278,7 +279,7 @@ function simplesEval(str, info) {
 
 		var codeMirror = CodeMirror.fromTextArea(code, {
 			    lineNumbers: true,
-			    mode: "javascript",
+			    mode: "commonlisp",
 			    gutters: ["CodeMirror-lint-markers"],
 			    lint: true,
 				matchBrackets: true,
